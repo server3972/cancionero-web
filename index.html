@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cancionero Pro V3</title>
+
+<style>
+:root{
+  --bg:#050806;
+  --panel:#0d1712;
+  --panel2:#112019;
+  --green:#32ff96;
+  --green2:#a5ffc8;
+  --blue:#3498ff;
+  --yellow:#ffd166;
+  --red:#ff5f6d;
+  --text:#eafff1;
+  --muted:#87a494;
+  --border:rgba(50,255,150,.16);
+}
+
+*{
+  box-sizing:border-box;
+}
+  body{
+  margin:0;
+  background:
+    radial-gradient(circle at top,#153427 0%,#07110d 35%,#020403 100%);
+  color:var(--text);
+  font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  min-height:100vh;
+}
+
+header{
+  padding:18px;
+  text-align:center;
+}
+
+header h1{
+  margin:0;
+  color:var(--green);
+  font-size:clamp(2rem,4vw,3.3rem);
+  text-shadow:0 0 22px rgba(50,255,150,.35);
+}
+
+header p{
+  color:var(--muted);
+  margin-top:8px;
+}
+
+.app{
+  width:min(1800px,99vw);
+  margin:auto;
+  display:grid;
+  grid-template-columns:220px 1fr;
+  gap:16px;
+    box-shadow:0 25px 60px rgba(0,0,0,.35);
+}
+
+label{
+  display:block;
+  margin:12px 0 6px;
+  color:var(--green2);
+  font-weight:700;
+}
+
+input,textarea,select{
+  width:100%;
+  border-radius:14px;
+  border:1px solid rgba(255,255,255,.08);
+  background:rgba(0,0,0,.35);
+  color:var(--text);
+  padding:12px;
+  font:inherit;
+  outline:none;
+}
+
+input:focus,
+textarea:focus,
+select:focus{
+  border-color:var(--green);
+  box-shadow:0 0 0 3px rgba(50,255,150,.12);
+}
+    box-shadow:0 25px 60px rgba(0,0,0,.35);
+}
+
+label{
+  display:block;
+  margin:12px 0 6px;
+  color:var(--green2);
+        cursor:pointer;
+  transition:.12s;
+  background:var(--green);
+  color:#021108;
+}
+
+button:hover{
+  transform:translateY(-1px);
+  filter:brightness(1.08);
+}
+
+.blue{
+  background:var(--blue);
+  color:white;
+}
+
+.red{
+  background:var(--red);
+  color:white;
+}
+
+.yellow{
+  background:var(--yellow);
+  color:#241600;
+}
+
+.dark{
+  background:#1b2b22;
+  color:white;
+}
+  font-weight:700;
+}
+
+input,textarea,select{
+  width:100%;
+  border-radius:14px;
+  border:1px solid rgba(255,255,255,.08);
+  background:rgba(0,0,0,.35);
+  color:var(--text);
+  padding:12px;
+  font:inherit;
+  outline:none;
+}
+
+input:focus,
+textarea:focus,
+select:focus{
+  border-color:var(--green);
+  box-shadow:0 0 0 3px rgba(50,255,150,.12);
+}
+  .wide{
+  grid-column:1/-1;
+}
+
+.song-list{
+  margin-top:12px;
+  max-height:55vh;
+  overflow:auto;
+  display:grid;
+  gap:8px;
+}
+
+.song-item{
+  padding:10px;
+  border-radius:14px;
+  background:rgba(0,0,0,.25);
+  border:1px solid rgba(255,255,255,.05);
+  cursor:pointer;
+  transition:.12s;
+}
+
+.song-item:hover{
+  border-color:var(--green);
+  color:var(--green2);
+}
+
+.status{
+  margin-top:12px;
+  min-height:26px;
+  color:var(--yellow);
+  font-weight:800;
+}
+  
+.editor-head{
+  display:grid;
+  grid-template-columns:1fr auto;
+  gap:12px;
+  align-items:end;
+  margin-bottom:12px;
+}
+
+.tonebox{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  justify-content:flex-end;
+}
+
+.searchbox{
+  margin-top:10px;
+}
+
+.tele{
+  position:fixed;
+  inset:0;
+  background:black;
+  z-index:9999;
+  display:none;
+  flex-direction:column;
+}
+
+.tele.active{
+  display:flex;
+}
+  
+.tele-bar{
+  padding:12px;
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  justify-content:center;
+  border-bottom:1px solid rgba(50,255,150,.12);
+  background:#020403;
+}
+
+.tele-content{
+  flex:1;
+  overflow:auto;
+  padding:40px 10vw 70vh;
+  white-space:pre-wrap;
+  line-height:1.8;
+  font-size:clamp(30px,4vw,58px);
+  color:var(--green2);
+  font-family:
+    ui-monospace,
+    SFMono-Regular,
+    Menlo,
+    Monaco,
+    Consolas,
+    monospace;
+}
+
+.smallnote{
+    color:var(--muted);
+  font-size:.86rem;
+  line-height:1.4;
+}
+
+@media(max-width:900px){
+  .app{
+    grid-template-columns:1fr;
+  }
+
+  textarea{
+    min-height:88vh;
+    font-size:24px;
+  }
+
+  .editor-head{
+    grid-template-columns:1fr;
+  }
+
+  .tonebox{
+    justify-content:stretch;
+  }
+
+  .tonebox button{
+    flex:1 1 130px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>🎸 Cancionero Pro V3</h1>
+<p>Cyber Norteño Edition · Linux Style · Teleprompter Mode</p>
+</header>
+
+<main class="app">
+
+<section class="card">
+
+<label>Nombre de la rola</label>
+<input id="songTitle" placeholder="Ej. Te Metiste">
+
+<label>Tono</label>
+<select id="songKey">
+<option>C</option>
+<option>C#</option>
+<option>D</option>
+<option>D#</option>
+<option>E</option>
+<option>F</option>
+<option>F#</option>
+<option>G</option>
+<option>G#</option>
+<option>A</option>
+<option>A#</option>
+<option>B</option>
+</select>
+
+<div class="buttons">
+<button onclick="newSong()">✨ Nueva</button>
+<button onclick="saveSon()">✨ Nueva</button>
+<button onclick="saveSong()">💾 Guardar</button>
+<button class="red" onclick="deleteSong()">🗑️ Borrar</button>
+<button class="yellow" onclick="downloadBackup()">📦 Backup</button>
+<button class="blue" onclick="searchLaCuerda()">🌎 La Cuerda</button>
+<button class="blue" onclick="searchUltimate()">🌎 Ultimate</button>
+<button class="dark wide" onclick="renderSongList()">🔄 Actualizar</button>
+</div>
+
+<div class="searchbox">
+  <label>Buscar canción</label>
+<input id="searchInput" placeholder="Buscar..." oninput="renderSongList()">
+</div>
+
+<label>Canciones guardadas</label>
+<div id="songList" class="song-list"></div>
+
+<div id="status" class="status"></div>
+
+<p class="smallnote">
+Las canciones se guardan automáticamente en este dispositivo.
+Más adelante agregaremos sincronización Linux/server 😎
+</p>
+
+</section>
+
+<section class="card">
+
+<div class="editor-head">
+<div>
+<label>Letra con acordes</label>
+</div>
+
+<div class="tonebox">
+<button onclick="transposeSong(1)">⬆ Medio</button>
+<button onclick="transposeSong(-1)">⬇ Medio</button>
+<button onclick="transposeSong(2)">⬆ Tono</button>
+<button onclick="transposeSong(-2)">⬇ Tono</button>
+<button class="blue" onclick="openTeleprompter()">🎤 Teleprompter</button>
+</div>
+  </div>
+
+<textarea id="songBody" spellcheck="false" placeholder="Pega aquí la rola..."></textarea>
+
+</section>
+
+</main>
+
+<section id="tele" class="tele">
+
+<div class="tele-bar">
+<button onclick="playTele()">▶ Play</button>
+<button onclick="stopTele()">⏸ Stop</button>
+<button onclick="speedUp()">⚡ +</button>
+<button onclick="speedDown()">🐢 -</button>
+<button class="red" onclick="closeTeleprompter()">❌ Cerrar</button>
+</div>
+
+<div id="teleContent" class="tele-content"></div>
+
+</section>
+
+<script>
+const STORAGE_KEY='cancionero_pro_v3';
+
+const titleEl=document.getElementById('songTitle');
+const bodyEl=document.getElementById('songBody');
+const keyEl=document.getElementById('songKey');
+const listEl=document.getElementById('songList');
+const statusEl=document.getElementById('status');
+const tele=document.getElementById('tele');
+  const teleContent=document.getElementById('teleContent');
+const searchInput=document.getElementById('searchInput');
+
+let currentId=null;
+let teleTimer=null;
+let teleSpeed=1.4;
+
+const notes=['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'];
+
+function getSongs(){
+  return JSON.parse(localStorage.getItem(STORAGE_KEY)||'[]');
+}
+
+function setSongs(songs){
+  localStorage.setItem(STORAGE_KEY,JSON.stringify(songs));
+}
+
+function showStatus(msg){
+  statusEl.textContent=msg;
+  setTimeout(()=>{
+    if(statusEl.textContent===msg){
+      statusEl.textContent='';
+    }
+  },2500);
+}
+
+function makeId(){
+  return 'song_'+Date.now();
+}
+
+function renderSongList(){
+  const q=searchInput.value.toLowerCase();
+   const songs=getSongs();
+
+  listEl.innerHTML='';
+
+  const filtered=songs.filter(song=>
+    song.title.toLowerCase().includes(q)
+  );
+
+  if(!filtered.length){
+    listEl.innerHTML='<div class="smallnote">No hay canciones todavía 🎸</div>';
+    return;
+  }
+
+  filtered.forEach(song=>{
+    const item=document.createElement('div');
+    item.className='song-item';
+    item.innerHTML='🎵 '+song.title+' · '+song.key;
+    item.onclick=()=>loadSong(song.id);
+    listEl.appendChild(item);
+  });
+}
+
+function newSong(){
+  currentId=null;
+  titleEl.value='';
+  bodyEl.value='';
+  keyEl.value='C';
+  titleEl.focus();
+}
+
+function saveSong(){
+   const title=titleEl.value.trim();
+  const body=bodyEl.value;
+  const key=keyEl.value;
+
+  if(!title){
+    showStatus('Ponle nombre a la rola 🎸');
+    return;
+  }
+
+  const songs=getSongs();
+
+  if(!currentId){
+    currentId=makeId();
+    songs.unshift({
+      id:currentId,
+      title,
+      body,
+      key
+    });
+  }else{
+    const idx=songs.findIndex(s=>s.id===currentId);
+
+    if(idx>=0){
+      songs[idx]={
+        ...songs[idx],
+        title,
+        body,
+        key
+      };
+    }
+  }
+   setSongs(songs);
+  renderSongList();
+  showStatus('Guardado 💾');
+}
+
+function loadSong(id){
+  const song=getSongs().find(s=>s.id===id);
+  if(!song)return;
+
+  currentId=song.id;
+  titleEl.value=song.title;
+  bodyEl.value=song.body;
+  keyEl.value=song.key;
+
+  showStatus('Rola abierta 🎶');
+}
+
+function deleteSong(){
+  if(!currentId)return;
+
+  const songs=getSongs().filter(s=>s.id!==currentId);
+  setSongs(songs);
+  newSong();
+  renderSongList();
+  
+  showStatus('Rola borrada 🗑️');
+}
+
+function transposeRoot(root,steps){
+  let idx=notes.indexOf(root);
+  if(idx<0)return root;
+  return notes[(idx+steps+12)%12];
+}
+
+function transposeChord(chord,steps){
+  const match=chord.match(/^([A-G](#|b)?)(.*)$/);
+
+  if(!match)return chord;
+
+  return transposeRoot(match[1],steps)+match[3];
+}
+
+function transposeSong(steps){
+  bodyEl.value=bodyEl.value.replace(/\b([A-G](#|b)?[^\s]*)\b/g,(c)=>{
+    return transposeChord(c,steps);
+  });
+
+  keyEl.value=transposeRoot(keyEl.value,steps);
+
+  autoSave();
+}
+function searchLaCuerda(){
+  const q=encodeURIComponent(titleEl.value);
+  window.open('https://www.google.com/search?q=site:lacuerda.net+'+q,'_blank');
+}
+
+function searchUltimate(){
+  const q=encodeURIComponent(titleEl.value);
+  window.open('https://www.google.com/search?q=site:ultimate-guitar.com+'+q,'_blank');
+}
+
+function openTeleprompter(){
+  tele.classList.add('active');
+  teleContent.textContent=bodyEl.value;
+  teleContent.scrollTop=0;
+}
+
+function closeTeleprompter(){
+  stopTele();
+  tele.classList.remove('active');
+}
+
+function playTele(){
+  stopTele();
+
+  teleTimer=setInterval(()=>{
+    teleContent.scrollTop+=teleSpeed;
+  },40);
+}
+function stopTele(){
+  clearInterval(teleTimer);
+}
+
+function speedUp(){
+  teleSpeed+=0.4;
+}
+
+function speedDown(){
+  teleSpeed=Math.max(0.2,teleSpeed-0.4);
+}
+
+function downloadBackup(){
+  const songs=getSongs();
+
+  const blob=new Blob(
+    [JSON.stringify(songs,null,2)],
+    {type:'application/json'}
+  );
+
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download='backup-cancionero.json';
+  a.click();
+
+  URL.revokeObjectURL(a.href);
+
+  showStatus('Backup descargado 📦');
+}
+function autoSave(){
+  if(!currentId)return;
+  saveSong();
+}
+
+bodyEl.addEventListener('input',()=>{
+  clearTimeout(window.autoSaveTimer);
+
+  window.autoSaveTimer=setTimeout(()=>{
+    autoSave();
+  },1200);
+});
+
+window.addEventListener('keydown',(e)=>{
+  if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='s'){
+    e.preventDefault();
+    saveSong();
+  }
+
+  if(e.key==='Escape'){
+    closeTeleprompter();
+  }
+});
+
+renderSongList();
+</script>
+
+</body>
+</html>
+
+  
