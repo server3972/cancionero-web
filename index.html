@@ -396,10 +396,28 @@ Aquí va la letra..."></textarea>
 
   <script>
     const STORAGE_KEY = 'mi-cancionero-pro-v2';
- const notas = [
-  'C', 'C#', 'D', 'D#', 'E', 'F',
-  'F#', 'G', 'G#', 'A', 'A#', 'B'
+const notas = [
+  "C","C#","D","D#","E","F",
+  "F#","G","G#","A","A#","B"
 ];
+
+function transponerAcorde(acorde, pasos) {
+
+  let notaOriginal = notas.find(n =>
+    acorde.startsWith(n)
+  );
+
+  if (!notaOriginal) return acorde;
+
+  let indice = notas.indexOf(notaOriginal);
+
+  let nuevoIndice =
+    (indice + pasos + notas.length) % notas.length;
+
+  let nuevaNota = notas[nuevoIndice];
+
+  return acorde.replace(notaOriginal, nuevaNota);
+}
 
 const bemoles = {
   'Db': 'C#',
