@@ -3,21 +3,21 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mi Cancionero Pro</title>
+
+  <title>Mi Cancionero</title>
+
   <style>
     :root {
-      --bg: #050805;
-      --panel: #0d160d;
-      --panel-2: #111f11;
-      --text: #d7ffd7;
-      --muted: #8ccf8c;
-      --accent: #00ff66;
-      --accent-2: #39ff14;
-      --danger: #ff5a5a;
-      --warning: #ffd166;
-      --border: #1d451d;
-      --shadow: rgba(0, 255, 102, 0.12);
-      --font-size: 18px;
+      --bg: #101820;
+      --card: #172533;
+      --card2: #203040;
+      --text: #f4f7fb;
+      --muted: #b8c7d6;
+      --accent: #4cc9f0;
+      --good: #5ee27a;
+      --warn: #ffd166;
+      --bad: #ff6b6b;
+      --line: rgba(255,255,255,.12);
     }
 
     * {
@@ -26,771 +26,679 @@
 
     body {
       margin: 0;
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
-      background: radial-gradient(circle at top, #0b250b, var(--bg) 45%);
+      font-family: Arial, Helvetica, sans-serif;
+      background: linear-gradient(135deg, #101820, #13293d);
       color: var(--text);
       min-height: 100vh;
     }
 
     header {
+      padding: 22px;
+      text-align: center;
+      border-bottom: 1px solid var(--line);
+      background: rgba(0,0,0,.18);
       position: sticky;
       top: 0;
-      z-index: 20;
-      background: rgba(5, 8, 5, 0.92);
+      z-index: 10;
       backdrop-filter: blur(10px);
-      border-bottom: 1px solid var(--border);
-      padding: 12px 16px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      flex-wrap: wrap;
     }
 
-    h1 {
+    header h1 {
       margin: 0;
-      font-size: clamp(1.15rem, 4vw, 1.8rem);
-      color: var(--accent);
-      text-shadow: 0 0 12px var(--shadow);
+      font-size: 30px;
     }
 
-    .status {
+    header p {
+      margin: 8px 0 0;
       color: var(--muted);
-      font-size: 0.9rem;
     }
 
-    .layout {
-      display: grid;
-      grid-template-columns: 340px 1fr;
-      gap: 14px;
-      padding: 14px;
-      max-width: 1500px;
-      margin: 0 auto;
+    main {
+      width: min(1200px, 94%);
+      margin: 22px auto 60px;
     }
 
     .panel {
-      background: linear-gradient(180deg, var(--panel), #081008);
-      border: 1px solid var(--border);
+      background: var(--card);
+      border: 1px solid var(--line);
       border-radius: 18px;
-      box-shadow: 0 16px 50px rgba(0, 0, 0, 0.3);
-      overflow: hidden;
+      padding: 18px;
+      margin-bottom: 18px;
+      box-shadow: 0 8px 22px rgba(0,0,0,.22);
     }
 
-    .panel-inner {
-      padding: 14px;
+    .panel h2 {
+      margin-top: 0;
+      font-size: 22px;
     }
 
     label {
       display: block;
       color: var(--muted);
-      font-size: 0.85rem;
-      margin: 10px 0 5px;
+      font-size: 13px;
+      margin-bottom: 5px;
     }
 
-    input, textarea, select, button {
-      font: inherit;
-    }
-
-    input, textarea, select {
+    input, select, textarea {
       width: 100%;
-      background: #030703;
+      border: 1px solid var(--line);
+      background: #0c1520;
       color: var(--text);
-      border: 1px solid var(--border);
+      padding: 11px;
       border-radius: 12px;
-      padding: 10px;
       outline: none;
+      font-size: 15px;
     }
 
     textarea {
       min-height: 330px;
       resize: vertical;
-      line-height: 1.55;
-      font-size: var(--font-size);
+      font-family: "Courier New", monospace;
+      line-height: 1.45;
+      white-space: pre-wrap;
     }
 
-    input:focus, textarea:focus, select:focus {
+    input:focus, select:focus, textarea:focus {
       border-color: var(--accent);
-      box-shadow: 0 0 0 3px var(--shadow);
     }
 
     button {
-      border: 1px solid var(--border);
+      border: none;
       border-radius: 12px;
-      background: var(--panel-2);
-      color: var(--text);
-      padding: 10px 12px;
+      padding: 11px 14px;
+      background: var(--accent);
+      color: #061018;
+      font-weight: 700;
       cursor: pointer;
-      transition: transform 0.12s ease, border-color 0.12s ease, background 0.12s ease;
+      transition: transform .1s ease, opacity .1s ease;
     }
 
     button:hover {
+      opacity: .92;
       transform: translateY(-1px);
-      border-color: var(--accent);
-      background: #123012;
     }
 
-    button.primary {
-      color: #001f0a;
-      background: var(--accent);
-      border-color: var(--accent);
-      font-weight: 800;
+    button.secondary {
+      background: #31465c;
+      color: var(--text);
     }
 
     button.danger {
-      border-color: #663333;
-      color: #ffd9d9;
+      background: var(--bad);
+      color: white;
     }
 
-    button.warning {
-      color: #211600;
-      background: var(--warning);
-      border-color: var(--warning);
-      font-weight: 800;
+    button.goodbtn {
+      background: var(--good);
+      color: #061018;
     }
 
-    .grid-2 {
+    .grid-form {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
-    }
-
-    .grid-3 {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 8px;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 12px;
     }
 
     .toolbar {
       display: flex;
       flex-wrap: wrap;
-      gap: 8px;
-      align-items: center;
-      margin: 10px 0;
+      gap: 10px;
+      margin-top: 12px;
     }
 
-    .song-list {
+    .layout {
       display: grid;
-      gap: 8px;
-      max-height: 55vh;
+      grid-template-columns: 360px 1fr;
+      gap: 18px;
+    }
+
+    .lista {
+      display: grid;
+      gap: 10px;
+      max-height: 680px;
       overflow: auto;
       padding-right: 4px;
     }
 
-    .song-card {
-      background: #071007;
-      border: 1px solid var(--border);
+    .rola {
+      background: var(--card2);
+      border: 1px solid var(--line);
       border-radius: 14px;
-      padding: 10px;
+      padding: 12px;
       cursor: pointer;
     }
 
-    .song-card.active {
+    .rola:hover {
       border-color: var(--accent);
-      box-shadow: 0 0 0 3px var(--shadow);
     }
 
-    .song-title {
-      color: var(--accent-2);
-      font-weight: 800;
+    .rola.activa {
+      outline: 2px solid var(--accent);
+    }
+
+    .rola strong {
+      display: block;
+      font-size: 17px;
       margin-bottom: 4px;
     }
 
-    .song-meta {
+    .rola small {
       color: var(--muted);
-      font-size: 0.82rem;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
     }
 
-    .viewer {
-      min-height: 65vh;
+    .tag {
+      display: inline-block;
+      font-size: 12px;
+      padding: 5px 8px;
+      border-radius: 999px;
+      background: rgba(76,201,240,.15);
+      color: var(--accent);
+      margin-top: 7px;
     }
 
-    .preview {
-      background: #030703;
-      border-top: 1px solid var(--border);
-      min-height: 330px;
-      max-height: 67vh;
-      overflow: auto;
-      padding: 18px;
-      line-height: 1.75;
-      font-size: var(--font-size);
+    .empty {
+      color: var(--muted);
+      text-align: center;
+      padding: 22px;
+    }
+
+    .visor {
+      background: #0c1520;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 16px;
+      min-height: 400px;
       white-space: pre-wrap;
-      border-radius: 0 0 18px 18px;
+      font-family: "Courier New", monospace;
+      line-height: 1.5;
+      overflow: auto;
     }
 
-    .chord {
-      color: var(--accent);
-      font-weight: 900;
-      text-shadow: 0 0 10px rgba(0, 255, 102, 0.22);
+    .editor-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 12px;
     }
 
-    .section-title {
-      color: var(--warning);
-      font-weight: 800;
-    }
-
-    audio {
-      width: 100%;
-      margin-top: 8px;
-    }
-
-    .small {
-      font-size: 0.82rem;
+    .status {
       color: var(--muted);
-      line-height: 1.4;
+      font-size: 14px;
+      margin-top: 10px;
     }
 
-    .hidden {
-      display: none !important;
-    }
-
-    .teleprompter-on .preview {
-      max-height: calc(100vh - 220px);
-    }
-
-    .kbd {
-      border: 1px solid var(--border);
-      border-bottom-width: 2px;
-      border-radius: 8px;
-      padding: 2px 6px;
-      color: var(--accent);
-      background: #020502;
+    .footer-note {
+      color: var(--muted);
+      text-align: center;
+      margin-top: 25px;
+      font-size: 14px;
     }
 
     @media (max-width: 900px) {
       .layout {
         grid-template-columns: 1fr;
-        padding: 10px;
       }
 
-      .song-list {
-        max-height: 260px;
-      }
-
-      .grid-3 {
+      .grid-form {
         grid-template-columns: 1fr;
       }
 
-      textarea, .preview {
-        min-height: 300px;
-      }
-    }
-
-    @media (max-width: 520px) {
-      header {
-        align-items: flex-start;
+      header h1 {
+        font-size: 24px;
       }
 
-      .grid-2 {
-        grid-template-columns: 1fr;
-      }
-
-      .toolbar button, .toolbar select {
-        flex: 1 1 auto;
-      }
-
-      :root {
-        --font-size: 16px;
+      textarea {
+        min-height: 280px;
       }
     }
   </style>
 </head>
+
 <body>
   <header>
-    <div>
-      <h1>🎸 Mi Cancionero Pro</h1>
-      <div class="status" id="status">Listo para guardar rolas.</div>
-    </div>
-    <div class="toolbar">
-      <button class="primary" id="btnGuardar">Guardar</button>
-      <button id="btnNueva">Nueva</button>
-      <button id="btnExportar">Exportar</button>
-      <button id="btnImportar">Importar</button>
-      <input class="hidden" id="archivoImportar" type="file" accept="application/json" />
-    </div>
+    <h1>🎸 Mi Cancionero</h1>
+    <p>Guardar rolas · Buscar · Exportar backup · Importar en otro dispositivo</p>
   </header>
 
-  <main class="layout">
-    <aside class="panel">
-      <div class="panel-inner">
-        <label for="busqueda">Buscar rola</label>
-        <input id="busqueda" placeholder="Ej: Te Metiste, Ariel, La..." />
+  <main>
+    <section class="panel">
+      <h2>➕ Agregar / Editar rola</h2>
 
-        <div class="toolbar">
-          <button id="btnOrdenTitulo">A-Z</button>
-          <button id="btnOrdenFecha">Recientes</button>
-          <button class="danger" id="btnBorrar">Borrar</button>
+      <div class="grid-form">
+        <div>
+          <label>Título</label>
+          <input id="titulo" placeholder="Ejemplo: Te Metiste" />
         </div>
 
-        <div class="song-list" id="listaCanciones"></div>
+        <div>
+          <label>Artista</label>
+          <input id="artista" placeholder="Ejemplo: Ariel Camacho" />
+        </div>
 
-        <p class="small">
-          Tip: el guardado aquí queda en este navegador. Para pasarlo a otro teléfono/tablet usa <b>Exportar</b> e <b>Importar</b>. Para audio en todos los dispositivos, usa un archivo dentro de GitHub Pages o una liga directa.
-        </p>
+        <div>
+          <label>Carpeta / Categoría</label>
+          <select id="categoria">
+            <option>Campirano</option>
+            <option>Rock</option>
+            <option>Baladas</option>
+            <option>Iglesia</option>
+            <option>Metal</option>
+            <option>Práctica</option>
+            <option>Otro</option>
+          </select>
+        </div>
       </div>
-    </aside>
 
-    <section class="panel viewer" id="appPanel">
-      <div class="panel-inner">
-        <div class="grid-3">
-          <div>
-            <label for="titulo">Título</label>
-            <input id="titulo" placeholder="Nombre de la canción" />
-          </div>
-          <div>
-            <label for="artista">Artista / Grupo</label>
-            <input id="artista" placeholder="Ariel Camacho, etc." />
-          </div>
-          <div>
-            <label for="tono">Tono base</label>
-            <select id="tono">
-              <option>C</option><option>C#</option><option>Db</option><option>D</option><option>D#</option><option>Eb</option><option>E</option><option>F</option><option>F#</option><option>Gb</option><option>G</option><option>G#</option><option>Ab</option><option>A</option><option>A#</option><option>Bb</option><option>B</option>
-            </select>
-          </div>
-        </div>
+      <label>Letra / acordes</label>
+      <textarea id="contenido" placeholder="Pega aquí la rola con acordes...
 
-        <div class="grid-2">
-          <div>
-            <label for="audioUrl">Audio URL / ruta</label>
-            <input id="audioUrl" placeholder="audios/mi-rola.mp3 o https://..." />
-          </div>
-          <div>
-            <label for="audioLocal">Audio local para practicar en este dispositivo</label>
-            <input id="audioLocal" type="file" accept="audio/*" />
-          </div>
-        </div>
-
-        <audio id="player" controls></audio>
-
-        <div class="toolbar">
-          <button id="btnMenos">-1 tono</button>
-          <button id="btnMas">+1 tono</button>
-          <button id="btnResetTono">Reset</button>
-          <button id="btnVista">Vista / Editar</button>
-          <button id="btnFuenteMenos">A-</button>
-          <button id="btnFuenteMas">A+</button>
-        </div>
-
-        <div class="toolbar">
-          <button class="warning" id="btnTele">Teleprompter</button>
-          <label style="margin: 0; min-width: 170px; flex: 1;">Velocidad: <span id="velocidadTexto">1</span></label>
-          <input id="velocidad" type="range" min="0" max="8" step="1" value="1" style="max-width: 220px;" />
-          <button id="btnTop">Arriba</button>
-        </div>
-
-        <label for="letra">Letra y acordes</label>
-        <textarea id="letra" placeholder="Pega aquí tu rola con acordes. Ejemplo:
-          
-<button onclick="subirTono()">+</button>
-<button onclick="bajarTono()">-</button>
-
-<h3>flor hermosa</h3>
-
-<audio controls>
-  <source src="audio/cruzando-cerros-y-arroyos.mp3" type="audio/mpeg">
-</audio>
-
-<textarea id="textoCancion"></textarea>[Intro]
-G  D  Em  C
+Ejemplo:
 
 G
-Aquí va la letra..."></textarea>
+Te metiste completamente en mi vida
+D
+No hay un momento que no esté pensando en ti..."></textarea>
+
+      <div class="editor-actions">
+        <button onclick="guardarRola()" class="goodbtn">💾 Guardar rola</button>
+        <button onclick="nuevaRola()" class="secondary">🆕 Nueva rola</button>
+        <button onclick="borrarRolaActual()" class="danger">🗑️ Borrar rola</button>
       </div>
 
-      <div class="preview hidden" id="preview"></div>
+      <p class="status" id="status">Listo, my friend.</p>
     </section>
+
+    <section class="panel">
+      <h2>📦 Backup del cancionero</h2>
+
+      <div class="toolbar">
+        <button onclick="exportarCancionero()" class="secondary">📤 Exportar rolas</button>
+        <button onclick="document.getElementById('importFile').click()" class="secondary">📥 Importar rolas</button>
+        <input id="importFile" type="file" accept=".json" style="display:none" />
+        <button onclick="borrarTodo()" class="danger">🧨 Borrar todo</button>
+      </div>
+
+      <p class="status">
+        Para pasar tus rolas a otro dispositivo: exporta el archivo JSON, mándatelo por WhatsApp, Gmail, Drive o USB, y luego impórtalo en el otro dispositivo.
+      </p>
+    </section>
+
+    <section class="layout">
+      <aside class="panel">
+        <h2>🔎 Mis rolas</h2>
+
+        <label>Buscar</label>
+        <input id="buscar" placeholder="Buscar por título, artista, categoría o letra..." oninput="renderizarLista()" />
+
+        <div class="toolbar">
+          <button onclick="ordenarPorTitulo()" class="secondary">A-Z</button>
+          <button onclick="ordenarPorCategoria()" class="secondary">Categoría</button>
+        </div>
+
+        <p class="status" id="contador">0 rolas guardadas</p>
+
+        <div id="listaRolas" class="lista"></div>
+      </aside>
+
+      <section class="panel">
+        <h2>👀 Vista rápida</h2>
+        <div id="visor" class="visor">Selecciona una rola para verla aquí.</div>
+      </section>
+    </section>
+
+    <p class="footer-note">
+      My friend: este cancionero guarda en este navegador. Para sincronización automática entre todos tus dispositivos, después lo conectamos a Firebase o a tu servidor Linux Mint. 🐧
+    </p>
   </main>
 
   <script>
-    const STORAGE_KEY = 'mi-cancionero-pro-v2';
-const notas = [
-  "C","C#","D","D#","E","F",
-  "F#","G","G#","A","A#","B"
-];
+    const STORAGE_KEY = "cancionero_juan_v1";
 
-function transponerAcorde(acorde, pasos) {
+    let rolas = [];
+    let rolaActualId = null;
 
-  let notaOriginal = notas.find(n =>
-    acorde.startsWith(n)
-  );
-
-  if (!notaOriginal) return acorde;
-
-  let indice = notas.indexOf(notaOriginal);
-
-  let nuevoIndice =
-    (indice + pasos + notas.length) % notas.length;
-
-  let nuevaNota = notas[nuevoIndice];
-
-  return acorde.replace(notaOriginal, nuevaNota);
-}
-
-const bemoles = {
-  'Db': 'C#',
-  'Eb': 'D#',
-  'Gb': 'F#',
-  'Ab': 'G#',
-  'Bb': 'A#',
-  'Cb': 'B',
-  'Fb': 'E'
-};
-
-function normalizarNota(nota) {
-  return bemoles[nota] || nota;
-}
-
-function normalizarNota(nota) {
-  return bemoles[nota] || nota;
-}
-    const $ = (id) => document.getElementById(id);
-
-    const state = {
-      canciones: [],
-      actualId: null,
-      orden: 'fecha',
-      transposicion: 0,
-      editando: true,
-      teleTimer: null,
-      fontSize: 18
-    };
-
-    function uid() {
-      return 'song-' + Date.now() + '-' + Math.random().toString(16).slice(2);
-    }
-
-    function setStatus(texto) {
-      $('status').textContent = texto;
-    }
-
-    function cargarStorage() {
-      try {
-        const data = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
-        state.canciones = Array.isArray(data) ? data : [];
-      } catch {
-        state.canciones = [];
-      }
-    }
-
-    function guardarStorage() {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(state.canciones));
-    }
-
-    function cancionActual() {
-      return state.canciones.find(c => c.id === state.actualId) || null;
-    }
-
-    function leerFormulario() {
-      return {
-        id: state.actualId || uid(),
-        titulo: $('titulo').value.trim() || 'Sin título',
-        artista: $('artista').value.trim(),
-        tono: $('tono').value,
-        audioUrl: $('audioUrl').value.trim(),
-        letra: $('letra').value,
-        updatedAt: new Date().toISOString()
-      };
-    }
-
-    function llenarFormulario(cancion) {
-      state.actualId = cancion.id;
-      state.transposicion = 0;
-      $('titulo').value = cancion.titulo || '';
-      $('artista').value = cancion.artista || '';
-      $('tono').value = cancion.tono || 'C';
-      $('audioUrl').value = cancion.audioUrl || '';
-      $('letra').value = cancion.letra || '';
-      $('audioLocal').value = '';
-      actualizarPlayer();
-      renderLista();
-      renderPreview();
-      setStatus('Rola cargada: ' + (cancion.titulo || 'Sin título'));
-    }
-
-    function nuevaCancion() {
-      state.actualId = null;
-      state.transposicion = 0;
-      $('titulo').value = '';
-      $('artista').value = '';
-      $('tono').value = 'C';
-      $('audioUrl').value = '';
-      $('audioLocal').value = '';
-      $('letra').value = '';
-      $('player').removeAttribute('src');
-      $('player').load();
-      renderLista();
-      renderPreview();
-      setStatus('Nueva rola lista para capturar.');
-    }
-
-    function guardarCancion() {
-      const nueva = leerFormulario();
-      const idx = state.canciones.findIndex(c => c.id === nueva.id);
-      if (idx >= 0) state.canciones[idx] = nueva;
-      else state.canciones.unshift(nueva);
-      state.actualId = nueva.id;
-      guardarStorage();
-      renderLista();
-      renderPreview();
-      setStatus('Guardado ✅ ' + nueva.titulo);
-    }
-
-    function borrarCancion() {
-      const actual = cancionActual();
-      if (!actual) {
-        setStatus('No hay rola seleccionada para borrar.');
-        return;
-      }
-      const seguro = confirm('¿Borrar "' + actual.titulo + '"?');
-      if (!seguro) return;
-      state.canciones = state.canciones.filter(c => c.id !== actual.id);
-      guardarStorage();
-      nuevaCancion();
-      setStatus('Rola borrada.');
-    }
-
-    function renderLista() {
-      const q = $('busqueda').value.trim().toLowerCase();
-      let canciones = [...state.canciones].filter(c => {
-        const texto = `${c.titulo || ''} ${c.artista || ''} ${c.tono || ''}`.toLowerCase();
-        return texto.includes(q);
-      });
-
-      if (state.orden === 'titulo') {
-        canciones.sort((a, b) => (a.titulo || '').localeCompare(b.titulo || ''));
-      } else {
-        canciones.sort((a, b) => new Date(b.updatedAt || 0) - new Date(a.updatedAt || 0));
+    function crearId() {
+      if (window.crypto && crypto.randomUUID) {
+        return crypto.randomUUID();
       }
 
-      const lista = $('listaCanciones');
-      lista.innerHTML = '';
-
-      if (!canciones.length) {
-        lista.innerHTML = '<div class="small">No hay rolas todavía. Guarda la primera y aquí aparece.</div>';
-        return;
-      }
-
-      canciones.forEach(c => {
-        const card = document.createElement('div');
-        card.className = 'song-card' + (c.id === state.actualId ? ' active' : '');
-        card.innerHTML = `
-          <div class="song-title">${escapeHtml(c.titulo || 'Sin título')}</div>
-          <div class="song-meta">${escapeHtml(c.artista || 'Sin artista')} · Tono ${escapeHtml(c.tono || 'C')}</div>
-        `;
-        card.onclick = () => llenarFormulario(c);
-        lista.appendChild(card);
-      });
+      return "rola_" + Date.now() + "_" + Math.random().toString(16).slice(2);
     }
 
-    function escapeHtml(str) {
-      return String(str)
-        .replaceAll('&', '&amp;')
-        .replaceAll('<', '&lt;')
-        .replaceAll('>', '&gt;')
-        .replaceAll('"', '&quot;')
-        .replaceAll("'", '&#039;');
+    function fechaActual() {
+      return new Date().toISOString();
     }
 
-    function normalizarNota(nota) {
-      return equivalentes[nota] || nota;
+    function escaparHTML(texto) {
+      return String(texto || "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
     }
 
-  function transponerNota(nota, pasos) {
-  nota = normalizarNota(nota);
-
-  const index = notas.indexOf(nota);
-
-  if (index === -1) {
-    return nota;
-  }
-
-  let nuevoIndex = (index + pasos) % 12;
-
-  if (nuevoIndex < 0) {
-    nuevoIndex += 12;
-  }
-
-  return notas[nuevoIndex];
-}
-
-    function transponerAcorde(acorde, pasos) {
-      const match = acorde.match(/^([A-G](?:#|b)?)(.*)$/);
-      if (!match) return acorde;
-      return transponerNota(match[1], pasos) + match[2];
+    function ponerStatus(mensaje) {
+      document.getElementById("status").textContent = mensaje;
     }
 
-    function procesarLinea(linea) {
-      const acordesRegex = /\b([A-G](?:#|b)?(?:maj7|maj|min|m|sus|dim|aug|add)?\d*(?:\/[A-G](?:#|b)?)?)\b/g;
-      let segura = escapeHtml(linea);
+    function cargarDesdeMemoria() {
+      const datos = localStorage.getItem(STORAGE_KEY);
 
-      segura = segura.replace(/^\s*\[(.+?)\]\s*$/g, '<span class="section-title">[$1]</span>');
-
-      segura = segura.replace(acordesRegex, (full, prefijo, acorde) => {
-        let nuevo = acorde;
-        if (acorde.includes('/')) {
-          const [base, bajo] = acorde.split('/');
-          nuevo = transponerAcorde(base, state.transposicion) + '/' + transponerAcorde(bajo, state.transposicion);
-        } else {
-          nuevo = transponerAcorde(acorde, state.transposicion);
-        }
-        return prefijo + '<span class="chord">' + nuevo + '</span>';
-      });
-
-      return segura;
-    }
-
-    function renderPreview() {
-      const lineas = $('letra').value.split('\n');
-      $('preview').innerHTML = lineas.map(procesarLinea).join('\n');
-    }
-
-    function cambiarVista() {
-      state.editando = !state.editando;
-      $('letra').classList.toggle('hidden', !state.editando);
-      $('preview').classList.toggle('hidden', state.editando);
-      renderPreview();
-      setStatus(state.editando ? 'Modo edición.' : 'Modo vista. Acordes resaltados.');
-    }
-
-    function actualizarPlayer() {
-      const url = $('audioUrl').value.trim();
-      const player = $('player');
-      if (url) {
-        player.src = url;
-        player.load();
-      } else if (!player.src) {
-        player.removeAttribute('src');
-        player.load();
-      }
-    }
-
-    function exportar() {
-      const blob = new Blob([JSON.stringify(state.canciones, null, 2)], { type: 'application/json' });
-      const a = document.createElement('a');
-      a.href = URL.createObjectURL(blob);
-      a.download = 'mi-cancionero-backup.json';
-      a.click();
-      URL.revokeObjectURL(a.href);
-      setStatus('Biblioteca exportada.');
-    }
-
-    function importarArchivo(file) {
-      const reader = new FileReader();
-      reader.onload = () => {
+      if (datos) {
         try {
-          const data = JSON.parse(reader.result);
-          if (!Array.isArray(data)) throw new Error('Formato inválido');
-          const existentes = new Map(state.canciones.map(c => [c.id, c]));
-          data.forEach(c => existentes.set(c.id || uid(), { ...c, id: c.id || uid(), updatedAt: c.updatedAt || new Date().toISOString() }));
-          state.canciones = Array.from(existentes.values());
-          guardarStorage();
-          renderLista();
-          setStatus('Importación lista ✅');
-        } catch (err) {
-          setStatus('No pude importar ese archivo JSON.');
+          rolas = JSON.parse(datos);
+
+          if (!Array.isArray(rolas)) {
+            rolas = [];
+          }
+        } catch (error) {
+          console.error(error);
+          rolas = [];
         }
-      };
-      reader.readAsText(file);
+      }
+
+      renderizarLista();
     }
 
-    function iniciarTeleprompter() {
-      detenerTeleprompter(false);
-      const velocidad = Number($('velocidad').value);
-      if (velocidad === 0) {
-        setStatus('Teleprompter pausado.');
+    function guardarEnMemoria() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(rolas));
+      renderizarLista();
+    }
+
+    function limpiarCampos() {
+      document.getElementById("titulo").value = "";
+      document.getElementById("artista").value = "";
+      document.getElementById("categoria").value = "Campirano";
+      document.getElementById("contenido").value = "";
+    }
+
+    function nuevaRola() {
+      rolaActualId = null;
+      limpiarCampos();
+
+      document.getElementById("visor").textContent = "Nueva rola lista para escribir.";
+      ponerStatus("Nueva rola, my friend. Escribe y guarda.");
+      renderizarLista();
+    }
+
+    function guardarRola() {
+      const titulo = document.getElementById("titulo").value.trim();
+      const artista = document.getElementById("artista").value.trim();
+      const categoria = document.getElementById("categoria").value;
+      const contenido = document.getElementById("contenido").value;
+
+      if (!titulo) {
+        alert("Ponle título a la rola, my friend.");
         return;
       }
-      if (state.editando) cambiarVista();
-      document.body.classList.add('teleprompter-on');
-      const preview = $('preview');
-      state.teleTimer = setInterval(() => {
-        preview.scrollTop += velocidad * 0.45;
-        if (preview.scrollTop + preview.clientHeight >= preview.scrollHeight - 2) {
-          detenerTeleprompter();
+
+      if (!contenido.trim()) {
+        alert("Pega o escribe la letra/acordes de la rola.");
+        return;
+      }
+
+      if (rolaActualId) {
+        const rola = rolas.find(r => r.id === rolaActualId);
+
+        if (rola) {
+          rola.titulo = titulo;
+          rola.artista = artista;
+          rola.categoria = categoria;
+          rola.contenido = contenido;
+          rola.actualizada = fechaActual();
+
+          ponerStatus("Rola actualizada correctamente ✅");
         }
-      }, 35);
-      setStatus('Teleprompter corriendo 🎶');
+      } else {
+        const nueva = {
+          id: crearId(),
+          titulo,
+          artista,
+          categoria,
+          contenido,
+          creada: fechaActual(),
+          actualizada: fechaActual()
+        };
+
+        rolas.push(nueva);
+        rolaActualId = nueva.id;
+
+        ponerStatus("Rola guardada correctamente ✅");
+      }
+
+      guardarEnMemoria();
+      mostrarRola(rolaActualId);
     }
 
-    function detenerTeleprompter(mensaje = true) {
-      if (state.teleTimer) clearInterval(state.teleTimer);
-      state.teleTimer = null;
-      document.body.classList.remove('teleprompter-on');
-      if (mensaje) setStatus('Teleprompter detenido.');
+    function mostrarRola(id) {
+      const rola = rolas.find(r => r.id === id);
+      if (!rola) return;
+
+      rolaActualId = id;
+
+      document.getElementById("titulo").value = rola.titulo || "";
+      document.getElementById("artista").value = rola.artista || "";
+      document.getElementById("categoria").value = rola.categoria || "Otro";
+      document.getElementById("contenido").value = rola.contenido || "";
+
+      document.getElementById("visor").textContent =
+        `${rola.titulo}\n` +
+        `${rola.artista ? "Artista: " + rola.artista + "\n" : ""}` +
+        `Categoría: ${rola.categoria || "Otro"}\n\n` +
+        `${rola.contenido || ""}`;
+
+      ponerStatus("Rola cargada para editar/ver.");
+      renderizarLista();
     }
 
-    function ajustarFuente(delta) {
-      state.fontSize = Math.max(12, Math.min(34, state.fontSize + delta));
-      document.documentElement.style.setProperty('--font-size', state.fontSize + 'px');
-      setStatus('Tamaño de letra: ' + state.fontSize + 'px');
+    function borrarRolaActual() {
+      if (!rolaActualId) {
+        alert("Primero selecciona una rola.");
+        return;
+      }
+
+      const rola = rolas.find(r => r.id === rolaActualId);
+      if (!rola) return;
+
+      if (!confirm(`¿Seguro que quieres borrar "${rola.titulo}"?`)) {
+        return;
+      }
+
+      rolas = rolas.filter(r => r.id !== rolaActualId);
+      rolaActualId = null;
+
+      limpiarCampos();
+      document.getElementById("visor").textContent = "Rola borrada.";
+      guardarEnMemoria();
+
+      ponerStatus("Rola borrada.");
     }
 
-    function bindEventos() {
-      $('btnGuardar').onclick = guardarCancion;
-      $('btnNueva').onclick = nuevaCancion;
-      $('btnBorrar').onclick = borrarCancion;
-      $('btnVista').onclick = cambiarVista;
-      $('btnMas').onclick = () => { state.transposicion += 1; renderPreview(); setStatus('Transposición: +' + state.transposicion); };
-      $('btnMenos').onclick = () => { state.transposicion -= 1; renderPreview(); setStatus('Transposición: ' + state.transposicion); };
-      $('btnResetTono').onclick = () => { state.transposicion = 0; renderPreview(); setStatus('Tono original.'); };
-      $('btnFuenteMas').onclick = () => ajustarFuente(2);
-      $('btnFuenteMenos').onclick = () => ajustarFuente(-2);
-      $('btnTop').onclick = () => { $('preview').scrollTop = 0; $('letra').scrollTop = 0; };
-      $('btnTele').onclick = () => state.teleTimer ? detenerTeleprompter() : iniciarTeleprompter();
-      $('btnExportar').onclick = exportar;
-      $('btnImportar').onclick = () => $('archivoImportar').click();
-      $('archivoImportar').onchange = (e) => e.target.files[0] && importarArchivo(e.target.files[0]);
-      $('btnOrdenTitulo').onclick = () => { state.orden = 'titulo'; renderLista(); };
-      $('btnOrdenFecha').onclick = () => { state.orden = 'fecha'; renderLista(); };
-      $('busqueda').oninput = renderLista;
-      $('letra').oninput = renderPreview;
-      $('audioUrl').onchange = actualizarPlayer;
-      $('audioLocal').onchange = (e) => {
-        const file = e.target.files[0];
-        if (!file) return;
-        $('player').src = URL.createObjectURL(file);
-        $('player').load();
-        setStatus('Audio local cargado para practicar.');
+    function renderizarLista() {
+      const lista = document.getElementById("listaRolas");
+      const buscar = document.getElementById("buscar").value.toLowerCase().trim();
+
+      let filtradas = rolas.filter(rola => {
+        const texto = `
+          ${rola.titulo || ""}
+          ${rola.artista || ""}
+          ${rola.categoria || ""}
+          ${rola.contenido || ""}
+        `.toLowerCase();
+
+        return texto.includes(buscar);
+      });
+
+      document.getElementById("contador").textContent =
+        `${rolas.length} rolas guardadas · ${filtradas.length} visibles`;
+
+      if (filtradas.length === 0) {
+        lista.innerHTML = `<div class="empty">No hay rolas para mostrar.</div>`;
+        return;
+      }
+
+      lista.innerHTML = filtradas.map(rola => {
+        const activa = rola.id === rolaActualId ? "activa" : "";
+
+        return `
+          <div class="rola ${activa}" onclick="mostrarRola('${rola.id}')">
+            <strong>${escaparHTML(rola.titulo)}</strong>
+            <small>${escaparHTML(rola.artista || "Sin artista")}</small>
+            <br>
+            <span class="tag">${escaparHTML(rola.categoria || "Otro")}</span>
+          </div>
+        `;
+      }).join("");
+    }
+
+    function ordenarPorTitulo() {
+      rolas.sort((a, b) => {
+        return (a.titulo || "").localeCompare(b.titulo || "", "es");
+      });
+
+      guardarEnMemoria();
+      ponerStatus("Ordenado por título A-Z.");
+    }
+
+    function ordenarPorCategoria() {
+      rolas.sort((a, b) => {
+        const cat = (a.categoria || "").localeCompare(b.categoria || "", "es");
+        if (cat !== 0) return cat;
+
+        return (a.titulo || "").localeCompare(b.titulo || "", "es");
+      });
+
+      guardarEnMemoria();
+      ponerStatus("Ordenado por categoría.");
+    }
+
+    function exportarCancionero() {
+      const backup = {
+        app: "Mi Cancionero",
+        version: 1,
+        exportado: fechaActual(),
+        totalRolas: rolas.length,
+        rolas
       };
-      $('velocidad').oninput = () => {
-        $('velocidadTexto').textContent = $('velocidad').value;
-        if (state.teleTimer) iniciarTeleprompter();
-      };
 
-      document.addEventListener('keydown', (e) => {
-        if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 's') {
-          e.preventDefault();
-          guardarCancion();
+      const datos = JSON.stringify(backup, null, 2);
+      const blob = new Blob([datos], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "backup-cancionero.json";
+      a.click();
+
+      URL.revokeObjectURL(url);
+
+      ponerStatus("Backup exportado correctamente 📤");
+    }
+
+    document.getElementById("importFile").addEventListener("change", function(evento) {
+      const archivo = evento.target.files[0];
+      if (!archivo) return;
+
+      const lector = new FileReader();
+
+      lector.onload = function(e) {
+        try {
+          const datos = JSON.parse(e.target.result);
+
+          let rolasImportadas = [];
+
+          if (Array.isArray(datos)) {
+            rolasImportadas = datos;
+          } else if (datos.rolas && Array.isArray(datos.rolas)) {
+            rolasImportadas = datos.rolas;
+          } else {
+            alert("Ese archivo no parece ser un backup válido del cancionero.");
+            return;
+          }
+
+          if (rolasImportadas.length === 0) {
+            alert("El backup no trae rolas.");
+            return;
+          }
+
+          const opcion = confirm(
+            "¿Quieres REEMPLAZAR tus rolas actuales?\n\n" +
+            "Aceptar = reemplazar todo\n" +
+            "Cancelar = agregar sin borrar las actuales"
+          );
+
+          if (opcion) {
+            rolas = normalizarRolas(rolasImportadas);
+          } else {
+            const nuevas = normalizarRolas(rolasImportadas);
+            rolas = unirSinDuplicar(rolas, nuevas);
+          }
+
+          rolaActualId = null;
+          limpiarCampos();
+          guardarEnMemoria();
+
+          document.getElementById("visor").textContent = "Backup importado correctamente.";
+          ponerStatus("Backup importado correctamente 📥");
+
+        } catch (error) {
+          console.error(error);
+          alert("No se pudo leer el archivo JSON.");
         }
-        if (e.key === 'Escape') detenerTeleprompter();
+      };
+
+      lector.readAsText(archivo);
+      evento.target.value = "";
+    });
+
+    function normalizarRolas(lista) {
+      return lista.map(rola => {
+        return {
+          id: rola.id || crearId(),
+          titulo: rola.titulo || "Sin título",
+          artista: rola.artista || "",
+          categoria: rola.categoria || "Otro",
+          contenido: rola.contenido || "",
+          creada: rola.creada || fechaActual(),
+          actualizada: fechaActual()
+        };
       });
     }
 
-    function demoSiVacio() {
-      if (state.canciones.length) return;
-      state.canciones.push({
-        id: uid(),
-        titulo: 'Demo - Te Metiste estilo práctica',
-        artista: 'Cancionero',
-        tono: 'G',
-        audioUrl: '',
-        letra: '[Intro]\nG  D  Em  C\n\n[Verso]\nG\nAquí pega tu letra\nD\ny deja los acordes arriba o en la misma línea\nEm\npara poder transportar\nC\ny practicar con teleprompter.\n',
-        updatedAt: new Date().toISOString()
+    function unirSinDuplicar(actuales, nuevas) {
+      const resultado = [...actuales];
+
+      nuevas.forEach(nueva => {
+        const existe = resultado.some(r =>
+          (r.titulo || "").toLowerCase().trim() === (nueva.titulo || "").toLowerCase().trim() &&
+          (r.artista || "").toLowerCase().trim() === (nueva.artista || "").toLowerCase().trim()
+        );
+
+        if (!existe) {
+          resultado.push(nueva);
+        }
       });
-      guardarStorage();
+
+      return resultado;
     }
 
-    function iniciar() {
-      bindEventos();
-      cargarStorage();
-      demoSiVacio();
-      renderLista();
-      llenarFormulario(state.canciones[0]);
+    function borrarTodo() {
+      if (!confirm("¿Seguro que quieres borrar TODAS las rolas?")) return;
+      if (!confirm("Última confirmación, my friend. Si no tienes backup, se perderán.")) return;
+
+      rolas = [];
+      rolaActualId = null;
+
+      limpiarCampos();
+      guardarEnMemoria();
+
+      document.getElementById("visor").textContent = "Cancionero vacío.";
+      ponerStatus("Todas las rolas fueron borradas.");
     }
 
-    iniciar();
+    cargarDesdeMemoria();
   </script>
 </body>
 </html>
